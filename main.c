@@ -22,9 +22,9 @@ void addWord(char arr[], char data[] ,int start, int end ,int pos){
     arr[pos] = '~';
 }
 
-void reverse(char arr[],char arr2[], int size){
+void reverseAshar(char arr[],char arr2[], int size){
     for(int i = size-1; i>=0; i--){
-        arr2[size-1-i] = arr[i];
+        arr2[size-1-i] = arr[i];  
     }
 }
 
@@ -74,7 +74,6 @@ void gioSearch(char text[], char word[], int counterWord, int counterText){
 
     finaltext[--pos] = '\0';
 
-    // printf("%s\n", word); input
     printf("Gematria Sequences: %s", finaltext);
 }
 
@@ -82,11 +81,61 @@ void atbashSearch(char text[], char word[], int counterWord, int counterText){
     char atbashWord[counterWord];
     char reversedWord[counterWord];
    
+    char finaltext[1024];
+    int pos = 0;
+    int dest = 0;
+
     for(int i = 0; i<counterWord; i++){
         atbashWord[i] = getAtbash(word[i]);
     }
-    
-    reverse(atbashWord,reversedWord, counterText);
+    reverseAshar(atbashWord,reversedWord, counterWord);
+    for(int i = 0; i<counterText; i++){
+        int posAtbash = 0;
+        int posReverse = 0;
+
+        if (reversedWord[posReverse] != text[i] && atbashWord[posAtbash] != text[i]){
+            continue;
+        }
+        if(atbashWord[posAtbash] == text[i]){
+            posAtbash++;
+        }
+        if(reversedWord[posReverse] == text[i]){
+            posReverse++;
+        }
+        
+        dest = i;
+
+        for(int j = i+1; j<counterText; j++){
+            if (reversedWord[posReverse] != text[j] && posReverse > posAtbash){
+                break;
+            }
+            else if(atbashWord[posAtbash] != text[j] && posAtbash > posReverse){
+                break;
+            }
+
+            if(atbashWord[posAtbash] == text[j]){
+                posAtbash++;
+            }
+            if(reversedWord[posReverse] == text[j]){
+                posReverse++;
+            }
+            dest++;
+            if(posAtbash == counterWord) {
+                addWord(finaltext, atbashWord, 0, counterWord-1, pos);
+                pos += counterWord + 1;
+                break;
+            }
+            if(posReverse == counterWord) {
+                addWord(finaltext, reversedWord, 0, counterWord-1, pos);
+                pos += counterWord + 1;
+                break;
+            }
+        }
+    }
+
+    finaltext[--pos] = '\0';
+
+    printf("\nAtbash: %s", finaltext);
 
 }
 
@@ -119,6 +168,7 @@ int main(){
     }
 
     gioSearch(text, word, counterWord, counterText);
+    atbashSearch(text, word, counterWord, counterText);
 
     return 0;
 }
