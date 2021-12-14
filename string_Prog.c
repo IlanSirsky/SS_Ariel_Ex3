@@ -6,71 +6,97 @@
 #define TXT 1024
 #define WORD 30
 
-int calcGematria(char *word)
+void addWord(char *arr, char *data, int start, int end, int pos)
 {
-    int gematria = 0;
-    for (size_t i = 0; i < strlen(word); i++)
+    while (start <= end)
     {
-        if (isupper(word[i]))
-        {
-            gematria += (word[i] - 'A' + 1);
-        }
-        else if (islower(word[i]))
-        {
-            gematria += (word[i] - 'a' + 1);
-        }
-        else
-        {
-            gematria += 0;
-        }
+        arr[pos++] = data[start++];
     }
-    return gematria;
+    arr[pos] = '~';
 }
 
-void funA(int gematria, char *txt)
+int sumGem(char *word)
 {
-    printf("im in funA\n");
-    printf("Gematria Sequences: ");
-    int gem = 0;
-    char temp[gematria];
-    int index = 0;
-    int remember = 0;
-    for (int i = 0; i < TXT; i++)
+    int sum = 0;
+    for (int i = 0; i < strlen(word); i++)
     {
-        if (txt[i] == '~')
+        sum += getGematria(word[i]);
+    }
+    return sum;
+}
+
+char getAtbash(char c)
+{
+    if ('a' <= c && c <= 'z')
+        return 'z' - c + 'a';
+    else if ('A' <= c && c <= 'Z')
+        return 'Z' - c + 'A';
+    else
+        return 0;
+}
+
+int getGematria(char c)
+{
+    if ('a' <= c && c <= 'z')
+        return c - 'a' + 1;
+    else if ('A' <= c && c <= 'Z')
+        return c - 'A' + 1;
+    else
+        return 0;
+}
+
+void funA(int gematria, char *text)
+{
+    char finaltext[1024];
+    int pos = 0;
+    int dest = 0;
+
+    for (int i = 0; i < strlen(text); i++)
+    {
+        int sum = getGematria(text[i]);
+        if (sum == 0)
         {
-            break;
+            continue;
         }
-        if (index == 1)
+        dest = i;
+        for (int j = i + 1; j < strlen(text); j++)
         {
-            remember = i;
-        }
-        if ((!isupper(txt[i]) || !islower(txt[i])) && index != 0)
-        {
-            temp[index++] = txt[i];
-        }
-        else if (isupper(txt[i]) || islower(txt[i]))
-        {
-            temp[index++] = txt[i];
-        }
-        printf("%s %d\n", temp , i);
-        gem = calcGematria(temp);
-        if (gem == gematria)
-        {
-            printf("%s~", temp);
-            memset(temp, 0, sizeof(temp));
-            i = i - index + 1;
-            remember = i;
-            gem = 0;
-            index = 0;
-        }
-        else if (gem > gematria)
-        {
-            gem = 0;
-            memset(temp, 0, sizeof(temp));
-            index = 0;
-            i = remember - 1;
+            int value = getGematria(text[j]);
+            if (sum + value == gematria && j + 1 == strlen(text))
+            {
+                if (value != 0)
+                {
+                    dest = j;
+                }
+                addWord(finaltext, text, i, dest, pos);
+                pos += dest - i + 2;
+                break;
+            }
+            else if (value == 0)
+            {
+                continue;
+            }
+            else if (sum == gematria && sum + value > gematria)
+            {
+                addWord(finaltext, text, i, dest, pos);
+                pos += dest - i + 2;
+                break;
+            }
+            else if (sum <= gematria && sum + value <= gematria)
+            {
+                sum += value;
+                dest = j;
+            }
+            else if (sum <= gematria && sum + value > gematria)
+            {
+                break;
+            }
+            else
+            {
+                break;
+            }
         }
     }
-    printf("\n");
+    finaltext[--pos] = '\0';
+    printf("Gematria Sequences: %s\n", finaltext);
 }

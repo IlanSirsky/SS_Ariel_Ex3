@@ -24,6 +24,7 @@ int main()
             wrd[i] = c;
         }
     }
+    
     for (size_t i = 0; i < TXT - 1; i++)
     {
         char c;        
@@ -34,8 +35,8 @@ int main()
             break;
         }
     }
-    int wrdGem = calcGematria(wrd);
-    funA(wrdGem, txt);
+    int wordGem = sumGem(wrd);
+    funA(wordGem,txt);
 
     return 0;
 }
