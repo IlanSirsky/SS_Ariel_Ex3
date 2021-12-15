@@ -12,10 +12,10 @@ int main()
     char wrd[WORD] = {0};
     char txt[TXT] = {0};
     for (size_t i = 0; i < WORD - 1; i++)
-    {   
-        char c;     
+    {
+        char c;
         scanf("%c", &c);
-        if (c == ' ' || c == '\t' || c == '\n')
+        if (isspace(c))
         {
             break;
         }
@@ -24,10 +24,10 @@ int main()
             wrd[i] = c;
         }
     }
-    
+
     for (size_t i = 0; i < TXT - 1; i++)
     {
-        char c;        
+        char c;
         scanf("%c", &c);
         txt[i] = c;
         if (c == '~')
@@ -36,7 +36,7 @@ int main()
         }
     }
     int wordGem = sumGem(wrd);
-    funA(wordGem,txt);
-
+    funA(wordGem, txt);
+    funB(wrd, txt);
     return 0;
 }

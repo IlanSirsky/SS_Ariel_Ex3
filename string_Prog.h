@@ -5,5 +5,7 @@ int getGematria(char);
 int sumGem(char *);
 void addWord(char *, char *, int, int, int);
 
-char getAtbash(char);
+void funB(char *,char *);
+char* getAtbash(char *);
+char* reverse(char *);
 #endif
