@@ -9,7 +9,7 @@
 
 int main()
 {
-    char wrd[WORD] = {0};
+    char word[WORD] = {0};
     char txt[TXT] = {0};
     for (size_t i = 0; i < WORD - 1; i++)
     {
@@ -21,7 +21,7 @@ int main()
         }
         else
         {
-            wrd[i] = c;
+            word[i] = c;
         }
     }
 
@@ -35,8 +35,8 @@ int main()
             break;
         }
     }
-    int wordGem = sumGem(wrd);
-    funA(wordGem, txt);
-    funB(wrd, txt);
+    funA(word, txt);
+    funB(word, txt);
+    funC(word, txt);
     return 0;
 }
