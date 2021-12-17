@@ -1,10 +1,11 @@
 OUTPUT = stringProg
 CC = gcc
+AR = ar
 CFLAGS = -Wall -g
 OBJ = functionA.o functionB.o functionC.o
 
 
-all: output functions
+all: stringProg functions
 
 main.o: main.c string_Prog.h
 	$(CC) -c $(CFLAGS) main.c
@@ -18,15 +19,15 @@ functionB.o: functionB.c string_Prog.h
 functionC.o: functionC.c string_Prog.h
 	$(CC) -c $(CFLAGS) functionC.c
 
-functions: libfunctions.so
+functions: libfunctions.a
 
-libfunctions.so: $(OBJ)
-	$(CC) -shared -fPIC -o libfunctions.so $(OBJ)
+libfunctions.a: $(OBJ)
+	$(AR) -rcs libfunctions.a $(OBJ)
 
-output: main.o libfunctions.so
-	$(CC) $(CFLAGS) -o $(OUTPUT) main.o ./libfunctions.so
+stringProg: main.o libfunctions.a
+	$(CC) $(CFLAGS) -o $(OUTPUT) main.o libfunctions.a
 
 .PHONY: all clean functions output
 
 clean:
-	rm -f *.o *.so $(OUTPUT)
+	rm -f *.o *.a $(OUTPUT)
