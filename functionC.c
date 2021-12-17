@@ -11,6 +11,9 @@
 char *sortString(char *word)
 {
     char *sorted = malloc(strlen(word));
+    if (sorted == NULL){
+        return NULL;
+    }
     strcpy(sorted, word);
     for (size_t i = 0; i < strlen(word) - 1; i++)
     {

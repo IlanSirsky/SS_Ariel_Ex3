@@ -11,6 +11,9 @@
 char *getAtbash(char *word)
 {
     char *atbash = malloc(strlen(word));
+    if (atbash == NULL){
+        return NULL;
+    }
     for (size_t i = 0; i < strlen(word); i++)
     {
         char c = word[i];
@@ -31,6 +34,9 @@ char *getAtbash(char *word)
 char *reverse(char *word)
 {
     char *rev = malloc(strlen(word));
+    if (rev == NULL){
+        return NULL;
+    }
     for (int i = strlen(word) - 1; i >= 0; i--)
     {
         rev[strlen(word) - 1 - i] = word[i];

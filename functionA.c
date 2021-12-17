@@ -97,5 +97,3 @@ void funA(char *word, char *text)
     finaltext[--pos] = '\0';
     printf("Gematria Sequences: %s\n", finaltext);
 }
-
-
