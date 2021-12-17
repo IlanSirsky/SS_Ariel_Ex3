@@ -95,5 +95,5 @@ void funC(char *word, char *text)
     }
     free(sortedWord);
     finaltext[--pos] = '\0';
-    printf("Anagram Sequences: %s\n", finaltext);
+    printf("Anagram Sequences: %s", finaltext);
 }
