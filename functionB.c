@@ -55,7 +55,10 @@ void funB(char *word, char *text)
     for (int i = 0; i < strlen(text); i++)
     {
         int posAtbash = 0;
-        int posReverse = 0;    
+        int posReverse = 0; 
+
+        int end = i;
+
         if (reversedWord[posReverse] != text[i] && atbashWord[posAtbash] != text[i])
         {
             continue;
@@ -71,6 +74,9 @@ void funB(char *word, char *text)
 
         for (int j = i + 1; j < strlen(text); j++)
         {
+            if (text[j] ==  ' '){
+                continue;
+            }  
             if (reversedWord[posReverse] != text[j] && posReverse > posAtbash)
             {
                 break;
@@ -78,7 +84,7 @@ void funB(char *word, char *text)
             else if (atbashWord[posAtbash] != text[j] && posAtbash > posReverse)
             {
                 break;
-            }
+            } 
             if (atbashWord[posAtbash] == text[j])
             {
                 posAtbash++;
@@ -87,16 +93,20 @@ void funB(char *word, char *text)
             {
                 posReverse++;
             }
+            if(posAtbash != strlen(word) && posReverse != strlen(word))
+            {
+                end = j;
+            }
             if (posAtbash == strlen(word))
             {
-                addWord(finaltext, atbashWord, 0, strlen(word) - 1, pos);
-                pos += strlen(word) + 1;
+                addWord(finaltext, text, i, end+1, pos);
+                pos += end - i + 3;
                 break;
             }
             if (posReverse == strlen(word))
             {
-                addWord(finaltext, reversedWord, 0, strlen(word) - 1, pos);
-                pos += strlen(word) + 1;
+                addWord(finaltext, text, i, end+1, pos);
+                pos += end - i + 3;
                 break;
             }
         }
